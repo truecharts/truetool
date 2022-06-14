@@ -1,50 +1,33 @@
-# truetool
-A easy tool for frequently used TrueNAS SCALE CLI utilities.
-Previously known as "trueupdate"
-
-## How to install
-
-run `pip install truetool`
-
-Please be aware you will need to reinstall after every SCALE update
-
-## How to Update
-
-run `pip install --upgrade truetool`
-
-## How to use
-
-running `truetool` should be a good start.
-
-Additional options are available:
-
-### Help
-
-- `truetool -h` for the CLI help page
+# heavy_script
+Script that can: Update Truenas SCALE applications, Mount and unmount PVC storage, Prune Docker images.
 
 
-### Update
+## These arguments can be ran in any order
+- -m | Initiates mounting feature, choose between unmounting and mounting PVC data"
+- -r | Opens a menu to restore a TrueScript backup that was taken on you ix-applications pool"
+- -b | Back-up your ix-applications dataset, specify a number after -b"
+- -i | Add application to ignore list, one by one, see example below."
+- -t | Set a custom timeout in seconds for -u or -U: This is the ammount of time the script will wait for an application to go from DEPLOYING to ACTIVE"
+- -t | Set a custom timeout in seconds for -m: Amount of time script will wait for applications to stop, before timing out"
+- -s | sync catalog"
+- -U | Update all applications, ignores versions"
+- -u | Update all applications, does not update Major releases"
+- -p | Prune unused/old docker images"
 
-- `truetool -u` or ` truetool --update` updates TrueNAS SCALE Apps
+
+### Examples
+#### bash truescript.sh -b 14 -i portainer -i arch -i sonarr -i radarr -t 600 -sup
+- This is your typical cron job implementation.
+- -b is set to 14. Up to 14 snapshots of your ix-applications dataset will be saved
+- -i is set to ignore portainer, arch, sonarr, and radarr. These applications will be ignored when it comes to updates.
+- -t I set it to 600 seconds, this means the script will wait 600 seconds for the application to become ACTIVE before timing out and continuing to a different application.
+- -s will just sync the repositories, ensuring you are downloading the latest updates
+- -u update applications as long as the major version has absolutely no change, if it does have a change it will ask the user to update manually.
+- -p Prune docker images.
+
+- bash /mnt/tank/scripts/truescript.sh -t 8812 -m
+- bash /mnt/tank/scripts/truescript/truescript.sh -r
 
 
-- `truetool --catalog CATALOGNAME` where CATALOGNAME is the name of the catalog you want to process in caps
-- `truetool --versioning SCHEME` where SCHEME is the highest semver version you want to process. options: `patch`, `minor` and `major`
-- `truetool -a` or ` truetool --all` updates both active (running) and non-active (stuck or stopped) Apps
-
-
-### Backup
-- `truetool -b` or ` truetool --backup` backup the complete Apps system prior to updates. Deletes old backups prior, number of old backups can be set, 14 by default
-- `truetool -r` or ` truetool --restore` restores a specific backup by name
-- `truetool -d` or ` truetool --delete` deletes a specific backup by name
-
-### Other
-
-- `truetool -s` or ` truetool --sync` to sync the catalogs before running updates
-- `truetool -p` or ` truetool --prune` to prune (remove) old docker images after running auto-update
-
-### Important note
-
-Please use the above arguments seperatly, combining them might not work as you would expect.
-So use: `truetool -u -b -p -s -a`
-not: `truetool -ubpsa`
+### Example Cron Job
+- ```/mnt/speed/scripts/heavy_script/truescript.sh -b 14 -sup```
