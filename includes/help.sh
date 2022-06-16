@@ -23,7 +23,7 @@ echo "-s | sync catalog"
 echo "-p | Prune unused/old docker images"
 echo
 echo -e "${BWhite}Examples${Color_Off}"
-echo "bash truetool.sh -b 14 -i portainer -i arch -i sonarr -i radarr -t 600 -vrsUp"
+echo "bash truetool.sh -b 14 -i portainer -i arch -i sonarr -i radarr -t 600 -vsUp"
 echo "bash /mnt/tank/scripts/truetool.sh -t 150 --mount"
 echo "bash /mnt/tank/scripts/truetool.sh --dns"
 echo "bash /mnt/tank/scripts/truetool.sh --restore"
